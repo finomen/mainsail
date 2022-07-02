@@ -24,6 +24,7 @@ export interface FarmPrinterState {
 export interface FarmPrinterStateSocket {
     instance: WebSocket | null
     hostname: string
+    path: string
     port: number
     webPort: number
     protocol: string

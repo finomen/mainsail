@@ -60,6 +60,18 @@
                         <v-row>
                             <v-col class="col-8">
                                 <v-text-field
+                                    v-model="dialogAddPrinter.path"
+                                    :rules="[
+                                        (v) => !!v || $t('SelectPrinterDialog.WebsocketPathRequired'),
+                                    ]"
+                                    :label="$t('SelectPrinterDialog.WebsocketPath')"
+                                    required
+                                    outlined
+                                    hide-details="auto"
+                                    dense></v-text-field>
+                            </v-col>
+                            <v-col class="col-8">
+                                <v-text-field
                                     v-model="dialogAddPrinter.hostname"
                                     :rules="[
                                         (v) => !!v || $t('SelectPrinterDialog.HostnameRequired'),
@@ -96,6 +108,18 @@
                 <v-form v-model="editPrinterValid" @submit.prevent="updatePrinter">
                     <v-card-text>
                         <v-row>
+                            <v-col class="col-8">
+                                <v-text-field
+                                    v-model="dialogEditPrinter.path"
+                                    :rules="[
+                                    (v) => !!v || $t('SelectPrinterDialog.WebsocketPathRequired'),
+                                ]"
+                                    :label="$t('SelectPrinterDialog.WebsocketPath')"
+                                    required
+                                    outlined
+                                    hide-details="auto"
+                                    dense></v-text-field>
+                            </v-col>
                             <v-col class="col-8">
                                 <v-text-field
                                     v-model="dialogEditPrinter.hostname"
@@ -228,6 +252,7 @@ export default class TheSelectPrinterDialog extends Mixins(BaseMixin) {
     private dialogAddPrinter = {
         bool: false,
         hostname: '',
+        path: '/websocket',
         port: 7125,
     }
     private editPrinterValid = false
@@ -235,6 +260,7 @@ export default class TheSelectPrinterDialog extends Mixins(BaseMixin) {
         bool: false,
         id: '',
         hostname: '',
+        path: '/websocket',
         port: 0,
     }
 
@@ -267,6 +293,10 @@ export default class TheSelectPrinterDialog extends Mixins(BaseMixin) {
 
     get hostname() {
         return this.$store.state.socket.hostname
+    }
+
+    get path() {
+        return this.$store.state.socket.path
     }
 
     get port() {
@@ -327,6 +357,7 @@ export default class TheSelectPrinterDialog extends Mixins(BaseMixin) {
 
     createPrinter() {
         this.dialogAddPrinter.hostname = ''
+        this.dialogAddPrinter.path = '/websocket'
         this.dialogAddPrinter.port = this.defaultMoonrakerPort
         this.dialogAddPrinter.bool = true
     }
@@ -335,6 +366,7 @@ export default class TheSelectPrinterDialog extends Mixins(BaseMixin) {
         const values = {
             hostname: this.dialogAddPrinter.hostname,
             port: this.dialogAddPrinter.port,
+            path: this.dialogAddPrinter.path,
         }
         this.$store.dispatch('gui/remoteprinters/store', { values })
 
@@ -344,6 +376,7 @@ export default class TheSelectPrinterDialog extends Mixins(BaseMixin) {
 
     editPrinter(printer: GuiRemoteprintersStatePrinter) {
         this.dialogEditPrinter.hostname = printer.hostname
+        this.dialogEditPrinter.path = printer.path
         this.dialogEditPrinter.port = printer.port
         this.dialogEditPrinter.id = printer.id ?? ''
         this.dialogEditPrinter.bool = true
@@ -353,6 +386,7 @@ export default class TheSelectPrinterDialog extends Mixins(BaseMixin) {
         const values = {
             hostname: this.dialogEditPrinter.hostname,
             port: this.dialogEditPrinter.port,
+            path: this.dialogEditPrinter.path,
         }
         this.$store.dispatch('gui/remoteprinters/update', {
             id: this.dialogEditPrinter.id,
@@ -372,7 +406,7 @@ export default class TheSelectPrinterDialog extends Mixins(BaseMixin) {
             hostname: printer.socket.hostname,
             port: printer.socket.port,
         })
-        this.$socket.setUrl(this.protocol + '://' + printer.socket.hostname + ':' + printer.socket.port + '/websocket')
+        this.$socket.setUrl(this.protocol + '://' + printer.socket.hostname + ':' + printer.socket.port + printer.socket.path)
         this.$socket.connect()
     }
 

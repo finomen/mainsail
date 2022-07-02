@@ -31,6 +31,7 @@ export const actions: ActionTree<PrinterState, RootState> = {
 
         commit('setData', {
             hostname: payload.hostname,
+            path: payload.path,
             software_version: payload.software_version,
             cpu_info: payload.cpu_info,
         })

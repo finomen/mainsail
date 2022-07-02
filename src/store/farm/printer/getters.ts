@@ -7,7 +7,7 @@ import { GuiWebcamStateWebcam } from '@/store/gui/webcams/types'
 // eslint-disable-next-line
 export const getters: GetterTree<FarmPrinterState, any> = {
     getSocketUrl: (state) => {
-        return state.socket.protocol + '://' + state.socket.hostname + ':' + state.socket.port + '/websocket'
+        return state.socket.protocol + '://' + state.socket.hostname + ':' + state.socket.port + state.socket.path
     },
 
     getSocketData: (state) => {
@@ -32,7 +32,7 @@ export const getters: GetterTree<FarmPrinterState, any> = {
         )
             return state.data.gui.general.printername
 
-        return state.socket.port !== 80 ? state.socket.hostname + ':' + state.socket.port : state.socket.hostname
+        return (state.socket.port !== 80 ? state.socket.hostname + ':' + state.socket.port : state.socket.hostname) + (state.socket.path !== '/websocket' ? state.socket.path : '')
     },
 
     getPrinterSocketState: (state) => {

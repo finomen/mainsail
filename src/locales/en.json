@@ -652,6 +652,8 @@
         "Hello": "Hello and welcome to the remote mode of Mainsail!",
         "HostnameInvalid": "invalid Hostname/IP",
         "HostnameIp": "Hostname/IP",
+        "WebsocketPath": "Websocket path",
+        "WebsocketPathRequired": "Websocket path is required",
         "HostnameRequired": "Hostname is required",
         "Port": "Port",
         "PortRequired": "Port is required",
