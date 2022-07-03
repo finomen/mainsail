@@ -3,6 +3,11 @@ import Vue from 'vue'
 import routes from '@/routes'
 
 Vue.use(VueRouter)
-const router = new VueRouter({ mode: 'history', routes })
+const router = new VueRouter(
+    {
+        mode: 'history',
+        base: '/mainsail',
+        routes
+    })
 
 export default router
