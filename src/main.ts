@@ -75,7 +75,7 @@ import VueResize from 'vue-resize'
 Vue.use(VueResize)
 
 //load config.json and init vue
-fetch('/config.json')
+fetch('/mainsail/config.json')
     .then((res) => res.json())
     .then(async (file) => {
         await store.dispatch('importConfigJson', file)
